@@ -1,0 +1,13 @@
+body {
+    margin-left: 200px;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    overflow: auto;
+    background-color: #F0F0F0;
+}
