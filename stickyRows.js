@@ -99,7 +99,12 @@
             if (this.opts.performanceDebugging) console.timeEnd("initialize stickyRows");
 
             //onScroll functionality
-            this.container.$element.off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+            if (this.container.$element.is('body')) {
+                $(document).off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+            } else {
+                this.container.$element.off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+            }
+
 
             //onResize window
             $(this.window).off('.stickyRows').on('resize.stickyRows', $.proxy(this.calculateDimensions, this));
