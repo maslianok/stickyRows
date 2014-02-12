@@ -90,6 +90,7 @@
             this.opts.scrollWidth = this.opts.scrollWidth == 'auto' ? scrollbarWidth() : this.opts.scrollWidth;
 
             this.container = {$element: this.table.$element.closest(this.opts.container)};
+            this.container.isBody = this.container.$element.is('body');
             this.scroll = {'vertical': false, 'horizontal': false, mode: 'scrolling', shiftToRow: -1};
 
             this.setRowSets();
@@ -99,12 +100,11 @@
             if (this.opts.performanceDebugging) console.timeEnd("initialize stickyRows");
 
             //onScroll functionality
-            if (this.container.$element.is('body')) {
-                $(document).off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+            if (this.container.isBody) {
+                $(this.document).off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
             } else {
                 this.container.$element.off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
             }
-
 
             //onResize window
             $(this.window).off('.stickyRows').on('resize.stickyRows', $.proxy(this.calculateDimensions, this));
@@ -146,8 +146,17 @@
 
                 this.container.scroll.top = containerScrollTop;
 
-                this.searchCurrentStickyRows();
-                this.renderStickyRows();
+                if (this.table.offset.top - this.container.offset.top > containerScrollTop || this.table.offset.top - this.container.offset.top + this.table.height < containerScrollTop) {
+                    if (!this.stickyHead.$element.hasClass('hidden')) {
+                        this.stickyNow = [];
+                        this.stickyHead.$element.addClass('hidden');
+                        this.stickyHead.$table.empty();
+                        this.stickyHead.$tableForShifting.empty().addClass('hidden');
+                    }
+                } else {
+                    this.searchCurrentStickyRows();
+                    this.renderStickyRows();
+                }
 
             }
 
@@ -240,13 +249,19 @@
 
             //table
             this.table.width = this.table.$element.outerWidth();
+            this.table.height = this.table.$element.height();
             this.table.offset = this.table.$element.offset();
+
+            //correction when calculate with container.scroll.top
+            if (!self.container.isBody) {
+                this.table.offset.top = this.table.offset.top + this.container.scroll.top;
+            }
 
             //sticky rows
             $.each(self.rowSets, function(i, rowSet) {
                 $.each(rowSet, function(j, rowObj) {
                     offset = rowObj.$row.offset();
-                    rowObj.offset = {top: offset.top + self.container.scroll.top - self.container.offset.top, left: offset.left - self.container.offset.left};
+                    rowObj.offset = {top: offset.top - self.container.offset.top + (self.container.isBody ? 0 : self.container.scroll.top), left: offset.left - self.container.offset.left};
                     rowObj.height = rowObj.$row.outerHeight();
                 });
             });
@@ -256,7 +271,7 @@
                 var $element = $('<div/>').addClass('sticky-header hidden').css({'top': this.container.offset.top, 'left': this.table.offset.left - this.container.scroll.left, 'width': this.container.width}).insertBefore(this.table.$element);
                 var $table = $('<table/>').addClass('sticky-table').addClass(this.table.$element.attr('class')).css({'width': this.table.width}).appendTo($element);
                 var $tableForShifting = $table.clone().addClass('sticky-table-for-shifting hidden').appendTo($element);
-                this.stickyHead = {$element: $element, $table: $table, $tableForShifting: $tableForShifting, height: 0, changed: false};
+                this.stickyHead = {$element: $element, $table: $table, $tableForShifting: $tableForShifting, height: 0, marginTop: 0, changed: false};
             } else {
                 this.stickyHead.$element.css({'top': this.container.offset.top, 'left': this.table.offset.left + this.container.scroll.left, 'width': this.container.width});
                 this.stickyHead.$table.css({'width': this.table.width});
@@ -277,8 +292,8 @@
         // this.stickyHead.changed - is stickyNow changed in compare with previous data
         searchCurrentStickyRows: function() {
             var self = this;
-            var upperBoundToScrolling = self.container.scroll.top;
-            var upperBoundToShifting = self.container.scroll.top + self.stickyHead.height;
+            var upperBoundToScrolling = this.container.scroll.top;
+            var upperBoundToShifting = this.container.scroll.top + this.stickyHead.height;
             var cnt;
             var stickyNow = [];
 
@@ -289,6 +304,8 @@
 
             $.each(this.rowSets, function(i, rowSet) {
 
+                //set upperBoundToScrolling with correction to priority
+                upperBoundToScrolling = self.container.scroll.top;
                 cnt = i;
                 while (cnt--) {
                     if (stickyNow[cnt]) {
@@ -298,32 +315,38 @@
 
                 $.each(rowSet, function(j, rowObj) {
 
-                    if (rowObj.offset.top < upperBoundToScrolling) {
-                        stickyNow.push(rowObj);
+                    if (!stickyNow.length || (stickyNow[i-1] && stickyNow[i-1].offset.top < rowObj.offset.top)) {
 
-                        if (!self.stickyNow[i] || self.stickyNow[i].$row != rowObj.$row) {
-                            self.stickyHead.changed = true;
-                            self.scroll.mode = 'scrolling';
-                            self.scroll.shiftToRow = -1;
+                        if (self.scroll.vertical == 'down' && rowObj.offset.top <= upperBoundToShifting && rowObj.offset.top >= upperBoundToScrolling) {
+                            if (self.stickyNow[i] && self.stickyNow[i].$row != rowObj.$row && (self.scroll.mode == 'scrolling' || (self.scroll.shiftToRow == i && self.stickyNow[self.stickyNow.length - 1].$row != rowObj.$row))) {
+                                if (self.scroll.mode == 'shifting') {
+                                    self.stickyNow.splice(i, 1);
+                                }
+                                self.stickyNow.push(rowObj);
+                                self.scroll.mode = 'shifting';
+                                self.scroll.shiftToRow = i;
+                            }
+                            return false;
+                        } else if (rowObj.offset.top < upperBoundToScrolling) {
+
+                            stickyNow.push(rowObj);
+
+                            if (!self.stickyNow[i] || self.stickyNow[i].$row != rowObj.$row) {
+                                self.stickyHead.changed = true;
+                                self.scroll.mode = 'scrolling';
+                                self.scroll.shiftToRow = -1;
+                            }
+                            return false;
                         }
-                        return false;
-                    } else if (self.scroll.vertical == 'down' && self.scroll.mode == 'scrolling' && rowObj.offset.top <= upperBoundToShifting) {
-                        if (self.stickyNow[i] && self.stickyNow[i].$row != rowObj.$row) {
-                            self.stickyNow.push(rowObj);
-                            self.scroll.mode = 'shifting';
-                            self.scroll.shiftToRow = i;
-                        }
-                        return false;
                     }
                 });
             });
 
-            if (self.stickyHead.changed || self.stickyNow.length != stickyNow.length) {
-                if (self.scroll.mode == 'scrolling') {
-                    self.stickyNow = stickyNow;
+            if (this.stickyHead.changed || this.stickyNow.length != stickyNow.length) {
+                if (this.scroll.mode == 'scrolling') {
+                    this.stickyNow = stickyNow;
                 }
-
-                self.stickyHead.changed = true;
+                this.stickyHead.changed = true;
             }
         },
 
@@ -331,41 +354,35 @@
         renderStickyRows: function() {
             var self = this;
             var $el;
+            var marginTop = 0;
+            var stickyHeadHeight = 0;
 
             //if something changed
             if (this.stickyHead.changed) {
 
-                //if 'scrolling' mode
+                this.stickyHead.$table.empty();
+                self.stickyHead.$tableForShifting.empty();
+
+                if (this.stickyNow.length) {
+                    this.stickyHead.$element.removeClass('hidden');
+                    $.each(this.stickyNow, function(i, el) {
+                        stickyHeadHeight += el.height;
+                        self.stickyHead.$table.append(self.getCloneOfRow(el));
+                    });
+                } else {
+                    this.stickyHead.$element.addClass('hidden');
+                }
+
                 if (self.scroll.mode == 'scrolling') {
-                    var stickyHeadHeight = 0;
-
-                    this.stickyHead.$table.css({'margin-top': 0 }).empty();
-                    self.stickyHead.$tableForShifting.empty().addClass('hidden');
-
-                    if (this.stickyNow.length) {
-
-                        this.stickyHead.$element.removeClass('hidden');
-
-                        $.each(this.stickyNow, function(i, el) {
-                            stickyHeadHeight += el.height;
-                            self.stickyHead.$table.append(self.getCloneOfRow(el));
-                        });
-
-                    } else {
-                        this.stickyHead.$element.addClass('hidden');
-                        this.stickyHead.$table.empty();
-                    }
-
+                    //if 'scrolling' mode
+                    self.stickyHead.$tableForShifting.addClass('hidden');
                     this.stickyHead.height = stickyHeadHeight;
 
                 } else {
                     //if 'shifting' mode
-                    $el = this.stickyNow[this.stickyNow.length - 1];
-                    self.stickyHead.$table.append(self.getCloneOfRow($el));
-
                     //fill and show 'tableForShifting'
                     if (self.scroll.shiftToRow) {
-                        self.stickyHead.$tableForShifting.empty().removeClass('hidden');
+                        self.stickyHead.$tableForShifting.removeClass('hidden');
                         self.stickyHead.$table.children(':lt(' + self.scroll.shiftToRow + ')').clone().appendTo(self.stickyHead.$tableForShifting);
                     }
                 }
@@ -373,14 +390,26 @@
                 this.stickyHead.changed = false;
             }
 
-            //set margin-top of main table in 'shifting' mode
-            if (self.scroll.mode == 'shifting') {
-                $el = $el || this.stickyNow[this.stickyNow.length - 1];
-                self.stickyHead.$table.css({'margin-top': ($el.offset.top - self.container.scroll.top) - this.stickyHead.height })
+            //set margin-top of table header in 'shifting' mode
+            if (this.scroll.mode == 'shifting') {
+                $el = this.stickyNow[this.stickyNow.length - 1];
+                marginTop = ($el.offset.top - this.container.scroll.top) - this.stickyHead.height;
+            }
+
+            //set margin-top of table header when table scrolled to the end
+            if (this.table.height + this.table.offset.top <= this.container.scroll.top + this.stickyHead.height && this.table.height + this.table.offset.top >= this.container.scroll.top) {
+                marginTop = (self.table.offset.top + self.table.height + 1 - this.container.scroll.top) - this.stickyHead.height;
+            }
+
+            //set margin-top once per method. this can happen in shifting mode or when table scrolled to the end
+            if (this.stickyHead.marginTop != marginTop) {
+                this.stickyHead.marginTop = marginTop;
+                this.stickyHead.$table.css({'margin-top': marginTop});
             }
 
         },
 
+        //called when scrolled horizontal
         setHorizontalOffset: function() {
             this.stickyHead.$table.css({'margin-left': -this.container.scroll.left});
             this.stickyHead.$tableForShifting.css({'margin-left': -this.container.scroll.left});
