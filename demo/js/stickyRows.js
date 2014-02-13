@@ -268,6 +268,7 @@
 
             //insert sticky wrapper into DOM
             if (!this.stickyHead) {
+                console.log(this.container.$element, this.container.offset.top)
                 var $element = $('<div/>').addClass('sticky-header hidden').css({'top': this.container.offset.top, 'left': this.table.offset.left - this.container.scroll.left, 'width': this.container.width}).insertBefore(this.table.$element);
                 var $table = $('<table/>').addClass('sticky-table').addClass(this.table.$element.attr('class')).css({'width': this.table.width}).appendTo($element);
                 var $tableForShifting = $table.clone().addClass('sticky-table-for-shifting hidden').appendTo($element);

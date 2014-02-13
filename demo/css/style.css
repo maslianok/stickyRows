@@ -1,8 +1,6 @@
 body {
-    font-size: 14px;
-    margin: 0;
-    margin-left: 200px;
-    padding: 20px;
+    margin: 0 0 0 220px;
+    padding: 0;
 }
 
 #menu {
@@ -13,6 +11,38 @@ body {
     width: 200px;
     overflow: auto;
     background-color: #F0F0F0;
+}
+
+.menu-inner {
+    padding: 5px;
+}
+
+.menu-inner ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu-inner ul li {
+    margin: 0;
+    padding: 12px;
+    line-height: 18px;
+    font-size: 16px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+code {
+    background-color: transparent;
+}
+
+.code {
+    border: 1px solid #e6e6e6;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 10px;
+    font-size: 20px;
+    line-height: 26px;
 }
 
 table.table-with-sticky-rows {
@@ -44,3 +74,11 @@ table.table-with-sticky-rows>.header-3 {
 table.table-with-sticky-rows>.header-4 {
     background-color: #fffcda;
 }
+
+.dl-horizontal dt {
+    width: 200px;
+}
+.dl-horizontal dd {
+    margin-left: 220px;
+}
+
