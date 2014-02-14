@@ -70,8 +70,10 @@
 
         //initialize
         init: function(el, options) {
+            var self = this;
             this.document = document;
             this.window = window;
+            this.body = $('body');
             this.uuid = uuid++;
 
             this.table = {$element: $(el)};
@@ -91,6 +93,7 @@
 
             this.container = {$element: this.table.$element.closest(this.opts.container)};
             this.container.isBody = this.container.$element.is('body');
+            this.container.isBodyScrollable = false;
             this.scroll = {'vertical': false, 'horizontal': false, mode: 'scrolling', shiftToRow: -1};
 
             this.setRowSets();
@@ -101,13 +104,13 @@
 
             //onScroll functionality
             if (this.container.isBody) {
-                $(this.document).off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+                $(this.document).off('.stickyRowsRedraw'+uuid).on('scroll.stickyRowsRedraw'+uuid, $.proxy(this.redraw, this));
             } else {
-                this.container.$element.off('.stickyRows').on('scroll.stickyRows', $.proxy(this.redraw, this));
+                this.container.$element.off('.stickyRowsRedraw'+uuid).on('scroll.stickyRowsRedraw'+uuid, $.proxy(this.redraw, this));
             }
 
             //onResize window
-            $(this.window).off('.stickyRows').on('resize.stickyRows', $.proxy(this.calculateDimensions, this));
+            $(this.window).off('.stickyRowsCalc'+uuid).on('resize.stickyRowsCalc'+uuid, $.proxy(this.calculateDimensions, this));
 
             if (typeof ResizeSensor != 'undefined' && !this.container.$element.is('body')) {
                 //onResize container
@@ -116,8 +119,16 @@
 
             //onScroll elements to synchronize
             if (this.containersToSynchronize) {
-                this.containersToSynchronize.off('.stickyRows').on('scroll.stickyRows', $.proxy(this.calculateDimensions, this));
+                this.containersToSynchronize.each(function() {
+                    if ($(this).is('body')) {
+                        self.container.isBodyScrollable = true;
+                        $(self.document).off('.stickyRowsCalc'+uuid).on('scroll.stickyRowsCalc'+uuid, $.proxy(self.calculateDimensions, self));
+                        return false;
+                    }
+                });
+                this.containersToSynchronize.not('body').off('.stickyRowsCalc'+uuid).on('scroll.stickyRowsCalc'+uuid, $.proxy(this.calculateDimensions, this));
             }
+
 
             this.redraw('init');
 
@@ -267,13 +278,17 @@
             });
 
             //insert sticky wrapper into DOM
+            var bodyCorrection = {top: 0, left: 0};
+            if (this.container.isBodyScrollable) {
+                bodyCorrection = {top: this.body.scrollTop(), left: this.body.scrollLeft()};
+            }
             if (!this.stickyHead) {
-                var $element = $('<div/>').addClass('sticky-header hidden').css({'top': this.container.offset.top, 'left': this.table.offset.left - this.container.scroll.left, 'width': this.container.width}).insertBefore(this.table.$element);
+                var $element = $('<div/>').addClass('sticky-header hidden').css({'top': this.container.offset.top - bodyCorrection.top, 'left': this.table.offset.left + this.container.scroll.left - bodyCorrection.left, 'width': this.container.width}).insertBefore(this.table.$element);
                 var $table = $('<table/>').addClass('sticky-table').addClass(this.table.$element.attr('class')).css({'width': this.table.width}).appendTo($element);
                 var $tableForShifting = $table.clone().addClass('sticky-table-for-shifting hidden').appendTo($element);
                 this.stickyHead = {$element: $element, $table: $table, $tableForShifting: $tableForShifting, height: 0, marginTop: 0, changed: false};
             } else {
-                this.stickyHead.$element.css({'top': this.container.offset.top, 'left': this.table.offset.left + this.container.scroll.left, 'width': this.container.width});
+                this.stickyHead.$element.css({'top': this.container.offset.top - bodyCorrection.top, 'left': this.table.offset.left + this.container.scroll.left - bodyCorrection.left, 'width': this.container.width});
                 this.stickyHead.$table.css({'width': this.table.width});
                 this.stickyHead.$tableForShifting.css({'width': this.table.width});
             }

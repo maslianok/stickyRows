@@ -1,0 +1,593 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stickyRows.css">
+
+    <style>
+        table.wrapper {
+            width: 100%;;
+            height: 100%;
+        }
+        .inner {
+            width: 600px;
+            height: 100%;
+            overflow: auto;
+            margin: auto;
+        }
+
+        .table-with-sticky-rows {
+            width: 800px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div id="menu"></div>
+
+<table class="wrapper">
+    <tr>
+        <td style="height: 200px;">
+            <h1>Implementation:</h1>
+            <div class="code">
+                <code>$('.table-with-sticky-rows').stickyRows({container: '.inner', rows: ['.header-1', '.header-2', '.header-3']});</code>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <div class="inner">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rhoncus ligula condimentum, dapibus leo at, imperdiet elit. Quisque pulvinar, enim eget gravida pretium, erat lorem volutpat felis, quis aliquet ligula sem vitae nisi. Ut erat est, tempor ac erat id, pharetra blandit neque. Suspendisse suscipit nisl ut ipsum bibendum viverra. Suspendisse quis urna mi. Curabitur ultricies vehicula purus, ultricies gravida magna vehicula sit amet. Sed tristique turpis id venenatis sagittis.</p>
+
+                <p>Aenean ante nulla, fringilla nec luctus non, porttitor nec ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam vel nunc tincidunt, viverra arcu in, tincidunt massa. Proin nec interdum mauris, ut tempus libero. Morbi vehicula erat non elit ultrices pretium. Sed cursus libero magna, in porta orci ultricies nec. Donec scelerisque ipsum a magna sollicitudin, sit amet fringilla diam volutpat. Nulla facilisi. Nam neque eros, euismod et aliquet et, consequat a lacus. Nunc euismod condimentum dolor, nec ultrices massa tempor eget. Vivamus porta ut justo nec vehicula.</p>
+
+                <table class="table-with-sticky-rows">
+
+                    <tbody class="header-1">
+                    <tr>
+                        <td>Header1 1</td>
+                        <td>Header1 2</td>
+                        <td>Header1 3</td>
+                        <td>Header1 4</td>
+                        <td>Header1 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-2">
+                    <tr>
+                        <td>Header2 1</td>
+                        <td>Header2 2</td>
+                        <td>Header2 3</td>
+                        <td>Header2 4</td>
+                        <td>Header2 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-2">
+                    <tr>
+                        <td>Header2 1</td>
+                        <td>Header2 2</td>
+                        <td>Header2 3</td>
+                        <td>Header2 4</td>
+                        <td>Header2 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-1">
+                    <tr>
+                        <td>Header1 1</td>
+                        <td>Header1 2</td>
+                        <td>Header1 3</td>
+                        <td>Header1 4</td>
+                        <td>Header1 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-2">
+                    <tr>
+                        <td>Header2 1</td>
+                        <td>Header2 2</td>
+                        <td>Header2 3</td>
+                        <td>Header2 4</td>
+                        <td>Header2 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-2">
+                    <tr>
+                        <td>Header2 1</td>
+                        <td>Header2 2</td>
+                        <td>Header2 3</td>
+                        <td>Header2 4</td>
+                        <td>Header2 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="header-3">
+                    <tr>
+                        <td>Header3 1</td>
+                        <td>Header3 2</td>
+                        <td>Header3 3</td>
+                        <td>Header3 4</td>
+                        <td>Header3 5</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cell:1</td>
+                        <td>Cell:2</td>
+                        <td>Cell:3</td>
+                        <td>Cell:4</td>
+                        <td>Cell:5</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rhoncus ligula condimentum, dapibus leo at, imperdiet elit. Quisque pulvinar, enim eget gravida pretium, erat lorem volutpat felis, quis aliquet ligula sem vitae nisi. Ut erat est, tempor ac erat id, pharetra blandit neque. Suspendisse suscipit nisl ut ipsum bibendum viverra. Suspendisse quis urna mi. Curabitur ultricies vehicula purus, ultricies gravida magna vehicula sit amet. Sed tristique turpis id venenatis sagittis.</p>
+
+                <p>Aenean ante nulla, fringilla nec luctus non, porttitor nec ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam vel nunc tincidunt, viverra arcu in, tincidunt massa. Proin nec interdum mauris, ut tempus libero. Morbi vehicula erat non elit ultrices pretium. Sed cursus libero magna, in porta orci ultricies nec. Donec scelerisque ipsum a magna sollicitudin, sit amet fringilla diam volutpat. Nulla facilisi. Nam neque eros, euismod et aliquet et, consequat a lacus. Nunc euismod condimentum dolor, nec ultrices massa tempor eget. Vivamus porta ut justo nec vehicula.</p>
+
+
+            </div>
+
+        </td>
+    </tr>
+
+
+</table>
+
+
+
+
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="js/stickyRows.js"></script>
+
+<script>
+    $(function(){
+
+        $("#menu").load("menu.html");
+
+        $('.table-with-sticky-rows').stickyRows({
+            container: '.inner',
+            rows: ['.header-1', '.header-2', '.header-3'],
+            containersToSynchronize: 'body'
+        });
+
+    });
+</script>
+
+</body>
+
+</html>

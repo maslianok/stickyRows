@@ -9,8 +9,9 @@ body {
     bottom: 0;
     left: 0;
     width: 200px;
-    overflow: auto;
     background-color: #F0F0F0;
+    overflow: auto;
+    z-index: 2;
 }
 
 .menu-inner {
