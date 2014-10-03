@@ -18,19 +18,18 @@ jquery.stickyRows is a floating/sticky table rows plugin that supports window an
 <table class="table-with-sticky-rows">
   <thead>
     <tr>
-        <td>Header1 1</td>
-        <td>Header1 2</td>
+        <td>Header1</td>
+        <td>Header2</td>
     </tr>
   </thead>
-
   <tbody>
     <tr>
-        <td>Cell:1</td>
-        <td>Cell:2</td>
+        <td>Cell1</td>
+        <td>Cell2</td>
     </tr>
     <tr>
-        <td>Cell:1</td>
-        <td>Cell:2</td>
+        <td>Cell1</td>
+        <td>Cell2</td>
     </tr>
   </tbody>
 </table>
