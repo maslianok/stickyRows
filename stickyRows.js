@@ -29,8 +29,7 @@
                 }
                 else return $.error('No such method "' + options + '" for stickyRows');
             });
-        }
-        else {
+        } else {
             this.each(function () {
                 if (!$(this).is('.sticky-table-for-shifting, .sticky-table')) {
                     if (!$.data(this, 'stickyRows')) {
@@ -134,6 +133,40 @@
 
             return this;
 
+        },
+
+        destroy: function() {
+
+            if (this.container.isBody) {
+                $(this.document).off('.stickyRowsRedraw'+uuid);
+            } else {
+                this.container.$element.off('.stickyRowsRedraw'+uuid);
+            }
+            $(this.window).off('.stickyRowsCalc'+uuid);
+
+            if (this.containersToSynchronize) {
+                this.containersToSynchronize.each(function() {
+                    if ($(this).is('body')) {
+                        $(self.document).off('.stickyRowsCalc'+uuid);
+                        return false;
+                    }
+                });
+                this.containersToSynchronize.off('.stickyRowsCalc'+uuid);
+            }
+
+            this.container.$element.children('div.resize-sensor').remove();
+
+            this.stickyHead.$element.remove();
+
+            this.body = null;
+            this.container = null;
+            this.containersToSynchronize = null;
+            this.document = null;
+            this.rowSets = null;
+            this.stickyHead = null;
+            this.stickyNow = null;
+            this.table = null;
+            this.window = null;
         },
 
         redraw: function(mode) {
